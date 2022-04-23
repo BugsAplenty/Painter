@@ -1,5 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
@@ -18,7 +19,6 @@ public class PainterController {
         LINE
     }
     private ShapeSelected shapeSelected;
-
     @FXML
     private Line currentLine;
     @FXML
@@ -26,26 +26,10 @@ public class PainterController {
     @FXML
     private Rectangle currentRect;
     @FXML
-    private ToggleButton lineToggleBtn;
-
-    @FXML
-    private ToggleButton rectToggleBtn;
-
-    @FXML
-    private ToggleButton circleToggleBtn;
-
-    @FXML
     private ColorPicker fillColorPicker;
     @FXML ColorPicker lineColorPicker;
     @FXML
-    private MenuItem undoEditMenuItem;
-
-    @FXML
-    private MenuItem redoEditMenuItem;
-
-    @FXML
     private Pane drawPane;
-
     @FXML
     private void rectToggleBtnPushed() {
         shapeSelected = ShapeSelected.RECTANGLE;
@@ -54,29 +38,63 @@ public class PainterController {
     private void ovalToggleBtnPushed() {
         shapeSelected = ShapeSelected.OVAL;
     }
-
     @FXML
     private void lineToggleBtnPushed() {
         shapeSelected = ShapeSelected.LINE;
     }
-
     @FXML
     private void drawPaneMouseClicked(MouseEvent e) {
-        if (shapeSelected == ShapeSelected.LINE) {
-            currentLine = new Line(e.getX(), e.getY(), e.getX(), e.getY());
-            currentLine.setFill(fillColorPicker.getValue());
-            currentLine.setStroke(lineColorPicker.getValue());
-            drawPane.getChildren().add(currentLine);
-        } else if (shapeSelected == ShapeSelected.OVAL) {
-            currentOval = new Ellipse(e.getX(), e.getY(), 0, 0);
-            currentLine.setFill(fillColorPicker.getValue());
-            currentOval.setStroke(lineColorPicker.getValue());
-            drawPane.getChildren().add(currentOval);
-        } else if (shapeSelected == ShapeSelected.RECTANGLE) {
-            currentRect = new Rectangle(e.getX(), e.getY(), 0, 0);
-            currentLine.setFill(fillColorPicker.getValue());
-            currentOval.setStroke(lineColorPicker.getValue());
-            drawPane.getChildren().add(currentRect);
+        switch(shapeSelected) {
+            case LINE -> {
+                currentLine = new Line(e.getX(), e.getY(), e.getX(), e.getY());
+                currentLine.setFill(fillColorPicker.getValue());
+                currentLine.setStroke(lineColorPicker.getValue());
+                drawPane.getChildren().add(currentLine);
+            }
+            case OVAL -> {
+                currentOval = new Ellipse(e.getX(), e.getY(), 0, 0);
+                currentOval.setFill(fillColorPicker.getValue());
+                currentOval.setStroke(lineColorPicker.getValue());
+                drawPane.getChildren().add(currentOval);
+            }
+            case RECTANGLE -> {
+                currentRect = new Rectangle(e.getX(), e.getY(), 0, 0);
+                currentRect.setFill(fillColorPicker.getValue());
+                currentRect.setStroke(lineColorPicker.getValue());
+                drawPane.getChildren().add(currentRect);
+            }
         }
+    }
+    @FXML
+    private void drawPaneMouseDragged(MouseEvent e) {
+        switch(shapeSelected) {
+            case LINE -> {
+                currentLine.setEndX(e.getX());
+                currentLine.setEndY(e.getY());
+            }
+            case OVAL -> {
+                currentOval.setRadiusX(e.getX() - currentOval.getCenterX());
+                currentOval.setRadiusY(e.getY() - currentOval.getCenterY());
+            }
+            case RECTANGLE -> {
+                currentRect.setWidth(e.getX());
+                currentRect.setHeight(e.getY());
+            }
+        }
+    }
+    @FXML
+    private void redoEditMenuItemSelected() {
+
+    }
+    @FXML
+    private void undoEditMenuItemSelected() {
+        int count = drawPane.getChildren().size();
+        if (count > 0) {
+            drawPane.getChildren().remove(count - 1);
+        }
+    }
+    @FXML
+    private void clearEditMenuItemSelected() {
+        drawPane.getChildren().clear();
     }
 }
