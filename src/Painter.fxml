@@ -14,14 +14,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PainterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PainterController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0">
+      <BorderPane prefHeight="1080.0" prefWidth="1920.0">
          <center>
-            <Pane fx:id="drawPane" onMouseClicked="#drawPaneMouseClicked" onMouseDragged="#drawPaneMouseDragged" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="drawPane" onMouseDragged="#drawPaneMouseDragged" onMousePressed="#drawPaneMousePressed" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar prefWidth="1344.0" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -35,7 +35,7 @@
                               <KeyCodeCombination alt="UP" code="Z" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem fx:id="redoEditMenuItem" disable="true" mnemonicParsing="false" onMenuValidation="#redoEditMenuItemSelected" text="Redo" />
-                        <MenuItem fx:id="undoEditMenuItem1" mnemonicParsing="false" onMenuValidation="#clearEditMenuItemSelected" text="Clear">
+                        <MenuItem fx:id="clearEditMenuItem" mnemonicParsing="false" onMenuValidation="#clearEditMenuItemSelected" text="Clear">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="W" control="ANY" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
@@ -62,12 +62,12 @@
                   <ToggleButton fx:id="lineToggleBtn" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#lineToggleBtnPushed" prefWidth="125.0" text="Line" toggleGroup="$shapeToggleGroup" />
                   <TitledPane animated="false" collapsible="false" text="Fill Color">
                      <content>
-                        <ColorPicker fx:id="fillColorPicker" />
+                        <ColorPicker fx:id="fillColorPicker" editable="true" />
                      </content>
                   </TitledPane>
                   <TitledPane animated="false" collapsible="false" text="Line Color">
                      <content>
-                        <ColorPicker fx:id="lineColorPicker">
+                        <ColorPicker fx:id="lineColorPicker" editable="true">
                            <value>
                               <Color />
                            </value>
